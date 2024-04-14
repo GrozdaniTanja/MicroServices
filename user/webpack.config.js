@@ -6,7 +6,7 @@ module.exports = {
     entry: "./src/entry.js",
     mode: "development",
     devServer: {
-        port: 3001, // port 3001 for header, user 3002, product 3003, order 3004
+        port: 3002 // port 3001 for header, user 3002, product 3003, order 3004
     },
     module: {
         rules: [
@@ -31,13 +31,13 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: "./public/index.html",
+            favicon: "./public/favicon.ico",
         }),
         new ModuleFederationPlugin({
-            name: "HomeApp",
-            remotes: {
-                ProductApp: "ProductApp@http://localhost:3003/remoteEntry.js",
-                OrderApp: "OrderApp@http://localhost:3004/remoteEntry.js",
-                UserApp: "UserApp@http://localhost:3002/remoteEntry.js",
+            name: "UserApp",
+            filename: "remoteEntry.js",
+            exposes: {
+                "./User": "./src/App",
             },
             shared: {
                 ...dependencies,

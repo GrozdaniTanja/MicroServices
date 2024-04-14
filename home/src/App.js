@@ -7,6 +7,7 @@ import Home from './page/home.jsx';
 
 const Product = lazy(() => import('ProductApp/Product'));
 const Order = lazy(() => import('OrderApp/Order'));
+const User = lazy(() => import('UserApp/User'));
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstName, setFirstName] = useState('');
@@ -18,9 +19,16 @@ function App() {
     }
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    setFirstName('');
+  };
+
+
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} firstName={firstName} />
+      <Header isLoggedIn={isLoggedIn} firstName={firstName} onLogout={handleLogout} />
       <React.Suspense
         fallback={<div>Loading ...</div>}
       >
@@ -28,6 +36,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/product/*" element={<Product />} />
           <Route path="/order/*" element={<Order />} />
+          <Route path="/user/*" element={<User />} />
         </Routes>
       </React.Suspense>
       <Footer />
