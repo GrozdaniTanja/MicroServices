@@ -1,15 +1,51 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
-import Register from './page/register.jsx';
-import Login from './page/login.jsx';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import { Link, Routes, Route } from "react-router-dom";
+import Login from "./page/login";
+import Register from "./page/Register";
+import Home from "./page/home";
+import Profile from "./page/profile";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user"));
+    if (loggedInUser) {
+      setIsLoggedIn(true);
+      setUser(loggedInUser);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    setUser("");
+  };
+
   return (
     <div className="UserApp">
+      <div className="header">
+        {isLoggedIn ? (
+          <>
+            <Profile userProfile={user} />
+            <button onClick={handleLogout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <h2>Please login or register in your account first!</h2>
+            <nav className="horizontal-nav">
+              <Link to="login">User/Login</Link>
+              <Link to="register">User/Register</Link>
+            </nav>
+          </>
+        )}
+      </div>
       <Routes>
-        <Route path="register" element={<Register />} />
+        <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Routes>
     </div>
   );

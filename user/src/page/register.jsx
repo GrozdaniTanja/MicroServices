@@ -24,7 +24,7 @@ function Register() {
             });
             if (response.ok) {
                 console.log("Registration successful!");
-                navigate("/user/login")
+                navigate("/")
             } else {
                 console.error("Registration failed!");
             }

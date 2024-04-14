@@ -14,8 +14,9 @@ function App() {
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (user) {
+      const parsedUser = JSON.parse(user);
       setIsLoggedIn(true);
-      setFirstName(user);
+      setFirstName(parsedUser.firstname);
     }
   }, []);
 
@@ -25,10 +26,9 @@ function App() {
     setFirstName('');
   };
 
-
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} firstName={firstName} onLogout={handleLogout} />
+      <Header isLoggedIn={isLoggedIn} firstName={firstName} />
       <React.Suspense
         fallback={<div>Loading ...</div>}
       >
@@ -36,7 +36,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/product/*" element={<Product />} />
           <Route path="/order/*" element={<Order />} />
-          <Route path="/user/*" element={<User />} />
+          <Route path="/user/*" element={<User onLogout={handleLogout} />} />
         </Routes>
       </React.Suspense>
       <Footer />

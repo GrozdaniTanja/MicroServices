@@ -32,7 +32,58 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.header {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.buttons button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3498db;
+  color: #fff;
+  cursor: pointer;
+}
+
+.buttons button:last-child {
+  margin-right: 0;
+}
+
+.buttons button:hover {
+  background-color: #2980b9;
+}
+
+.horizontal-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.horizontal-nav a {
+  display: inline-block;
+  padding: 1em 0.5em;
+  color: #000;
+  text-decoration: none;
+}
+
+.horizontal-nav a:hover {
+  background-color: #ccc;
+}
+
+.header .horizontal-nav a {
+  color: #000;
 }

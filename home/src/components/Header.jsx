@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
 
-const Header = ({ isLoggedIn, firstName, onLogout }) => {
+const Header = ({ isLoggedIn, firstName }) => {
     return (
         <header className="site-header">
             <div className="container">
@@ -13,25 +13,23 @@ const Header = ({ isLoggedIn, firstName, onLogout }) => {
                     <Link to="/order">
                         <FaShoppingCart /> Order
                     </Link>
-                    {!isLoggedIn ? (
-                        <>
-                            <Link to="/user/register" className="nav-link">Register</Link>
-                            <Link to="/user/login" className="nav-link">Login</Link>
-                        </>
-                    ) : (
-                        <>
-                            <div className="user-info">
-                                <span className="user-icon">
-                                    <FaUser />
-                                </span>
-                                <span className="first-name">{firstName}</span>
-                            </div>
-                            <button onClick={onLogout} className="logout-button">Logout</button>
-                        </>
-                    )}
+                    <Link to="/user">My Profile</Link>
                 </nav>
+                {isLoggedIn ? (
+                    <>
+                        <div className="user-info">
+                            <span className="user-icon">
+                                <FaUser />
+                            </span>
+                            <span className="first-name">{firstName}</span>
+                        </div>
+                    </>
+                ) : (
+                    <Link to="/user/login" className="user-info">Login</Link>
+                )}
             </div>
-        </header >
+
+        </header>
     );
 };
 
