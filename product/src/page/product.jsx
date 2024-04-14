@@ -93,6 +93,27 @@ const Product = () => {
         }
     };
 
+    //  I need to add this function to the order page--> to add a product to the order
+    // for this i need to add a new endpooint in the order api
+    //and to add a button to the product page to add the product to the order
+    //const handleAddToOrder = async (productId) => {
+    //     try {
+    //         const response = await fetch('http://localhost:3000/order/addProduct', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({ orderId: user.currentOrderId, productId }) // Replace user.currentOrderId with the actual order ID
+    //         });
+    //         if (!response.ok) {
+    //             throw new Error('Failed to add product to order');
+    //         }
+    //         console.log(`Product with ID ${productId} added to order`);
+    //     } catch (error) {
+    //         console.error('Error adding product to order:', error);
+    //     }
+    // };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         if (editProduct) {

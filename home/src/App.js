@@ -11,10 +11,12 @@ const User = lazy(() => import('UserApp/User'));
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstName, setFirstName] = useState('');
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      const parsedUser = JSON.parse(user);
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
       setIsLoggedIn(true);
       setFirstName(parsedUser.firstname);
     }
@@ -35,7 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/*" element={<Product />} />
-          <Route path="/order/*" element={<Order />} />
+          <Route path="/order/*" element={<Order isLoggedIn={isLoggedIn} user={user} />} />
           <Route path="/user/*" element={<User onLogout={handleLogout} />} />
         </Routes>
       </React.Suspense>

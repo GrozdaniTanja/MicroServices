@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Order = () => {
+const Order = ({ isLoggedIn, user }) => {
     const [orders, setOrders] = useState([]);
     const [newOrder, setNewOrder] = useState({
         orderNumber: '',
@@ -37,7 +37,7 @@ const Order = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(newOrder)
+                body: JSON.stringify({ ...newOrder, userId: user.id })
             });
             if (!response.ok) {
                 throw new Error('Failed to create order');
@@ -104,86 +104,90 @@ const Order = () => {
 
     return (
         <div>
-            <h1>Orders</h1>
-            <form onSubmit={handleCreateOrder}>
-                <input
-                    type="text"
-                    name="orderNumber"
-                    value={newOrder.orderNumber}
-                    onChange={handleInputChange}
-                    placeholder="Order Number"
-                />
-                <input
-                    type="text"
-                    name="productId"
-                    value={newOrder.productId}
-                    onChange={handleInputChange}
-                    placeholder="Product ID"
-                />
-                <input
-                    type="number"
-                    name="totalCost"
-                    value={newOrder.totalCost}
-                    onChange={handleInputChange}
-                    placeholder="Total Cost"
-                    step="0.01"
-                />
-                <input
-                    type="text"
-                    name="userId"
-                    value={newOrder.userId}
-                    onChange={handleInputChange}
-                    placeholder="User ID"
-                />
-                <button type="submit">Create Order</button>
-            </form>
-            <ul>
-                {orders.map((order) => (
-                    <li key={order.id}>
-                        <div>
-                            <strong>{order.orderNumber}</strong> - {order.productId} - ${order.totalCost} - {order.userId}
-                            <button onClick={() => handleEditOrder(order)}>Edit</button>
-                            <button onClick={() => handleDeleteOrder(order.id)}>Delete</button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-            {editOrder && (
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    handleUpdateOrder(editOrder.id, editOrder);
-                }}>
-                    <input
-                        type="text"
-                        name="orderNumber"
-                        value={editOrder.orderNumber}
-                        onChange={handleInputChange}
-                        placeholder="Order Number"
-                    />
-                    <input
-                        type="text"
-                        name="productId"
-                        value={editOrder.productId}
-                        onChange={handleInputChange}
-                        placeholder="Product ID"
-                    />
-                    <input
-                        type="number"
-                        name="totalCost"
-                        value={editOrder.totalCost}
-                        onChange={handleInputChange}
-                        placeholder="Total Cost"
-                        step="0.01"
-                    />
-                    <input
-                        type="text"
-                        name="userId"
-                        value={editOrder.userId}
-                        onChange={handleInputChange}
-                        placeholder="User ID"
-                    />
-                    <button type="submit">Update Order</button>
-                </form>
+            {isLoggedIn ? (
+                <>
+                    <h1>Orders</h1>
+                    <form onSubmit={handleCreateOrder}>
+                        <input
+                            type="text"
+                            name="orderNumber"
+                            value={newOrder.orderNumber}
+                            onChange={handleInputChange}
+                            placeholder="Order Number"
+                        />
+                        <input
+                            type="text"
+                            name="productId"
+                            value={newOrder.productId}
+                            onChange={handleInputChange}
+                            placeholder="Product ID"
+                        />
+                        <input
+                            type="number"
+                            name="totalCost"
+                            value={newOrder.totalCost}
+                            onChange={handleInputChange}
+                            placeholder="Total Cost"
+                            step="0.01"
+                        />
+                        <input
+                            type="hidden"
+                            name="userId"
+                            value={user.id}
+                        />
+                        <button type="submit">Create Order</button>
+                    </form>
+                    <ul>
+                        {orders.map((order) => (
+                            <li key={order.id}>
+                                <div>
+                                    <strong>{order.orderNumber}</strong> - {order.productId} - ${order.totalCost} - {order.userId}
+                                    <button onClick={() => handleEditOrder(order)}>Edit</button>
+                                    <button onClick={() => handleDeleteOrder(order.id)}>Delete</button>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    {editOrder && (
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            handleUpdateOrder(editOrder.id, editOrder);
+                        }}>
+                            <input
+                                type="text"
+                                name="orderNumber"
+                                value={editOrder.orderNumber}
+                                onChange={handleInputChange}
+                                placeholder="Order Number"
+                            />
+                            <input
+                                type="text"
+                                name="productId"
+                                value={editOrder.productId}
+                                onChange={handleInputChange}
+                                placeholder="Product ID"
+                            />
+                            <input
+                                type="number"
+                                name="totalCost"
+                                value={editOrder.totalCost}
+                                onChange={handleInputChange}
+                                placeholder="Total Cost"
+                                step="0.01"
+                            />
+                            <input
+                                type="text"
+                                name="userId"
+                                value={editOrder.userId}
+                                onChange={handleInputChange}
+                                placeholder="User ID"
+                            />
+                            <button type="submit">Update Order</button>
+                        </form>
+                    )}
+                </>
+            ) : (
+                <h2>Please log in to view orders</h2>
             )}
         </div>
     );
